@@ -10,6 +10,13 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody myRB;
     Camera playerCam;
+    [Header("Player stats")]
+    public int health = 5;
+    public int maxHealth = 10;
+    public int healthPickupAmt = 5;
+
+    [Header("weapon Stats")]
+    public Transform weaponSlot;
 
     [Header("movement stats")]
     public bool sprinting = false;
@@ -85,8 +92,39 @@ public class PlayerController : MonoBehaviour
 
             myRB.velocity = (transform.forward * temp.z) + (transform.right * temp.x) + (transform.up * temp.y);
 
-        }
+
+    {
+        
+    }
+}
             
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if ((collision.gameObject.tag == "health pick up") && health < maxHealth)
+        {
+            if (health + healthPickupAmt > maxHealth)
+                health = maxHealth;
 
+            else health += healthPickupAmt;
+
+            Destroy(collision.gameObject);
+    
+        }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Gun")
+        {
+
+            other.transform.position = weaponSlot.position;
+            other.transform.rotation = weaponSlot.rotation;
+
+            other.transform.SetParent(weaponSlot);
+        }
+
+    }
 }
+
