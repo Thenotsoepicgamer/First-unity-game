@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 147252362}
   - component: {fileID: 147252361}
   m_Layer: 0
-  m_Name: gun
+  m_Name: weapon1
   m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1681,15 +1681,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6445310504236486758, guid: 35cabb81bebdadb489ea3ef7679bbc7c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.17
+      value: 1.95
       objectReference: {fileID: 0}
     - target: {fileID: 6445310504236486758, guid: 35cabb81bebdadb489ea3ef7679bbc7c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 2.72
       objectReference: {fileID: 0}
     - target: {fileID: 6445310504236486758, guid: 35cabb81bebdadb489ea3ef7679bbc7c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.19
+      value: 10.95
       objectReference: {fileID: 0}
     - target: {fileID: 6445310504236486758, guid: 35cabb81bebdadb489ea3ef7679bbc7c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1736,6 +1736,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 3752043744940469808, guid: 19e831cee80b8a943bfb0c5a7f68e4aa, type: 3}
+      propertyPath: shot
+      value: 
+      objectReference: {fileID: 4772445106848022530, guid: 9f20ac6d5eceee442a925db6581f38d2, type: 3}
     - target: {fileID: 3752043744940469808, guid: 19e831cee80b8a943bfb0c5a7f68e4aa, type: 3}
       propertyPath: weaponSlot
       value: 

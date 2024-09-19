@@ -17,6 +17,19 @@ public class PlayerController : MonoBehaviour
 
     [Header("weapon Stats")]
     public Transform weaponSlot;
+    public GameObject shot;
+    public bool CanFire = true;
+    public float fireRate = 0;
+    public int weaponID = -1;
+    public float shotVel = 0;
+    public int firemode = 0;
+    public float currentMag = 0;
+    public float magSize = 0;
+    public float maxAmmo = 0;
+    public float currentAmmo = 0;
+    public float reloadAmt = 0;
+    public float bulletLifespan = 0;
+  
 
     [Header("movement stats")]
     public bool sprinting = false;
@@ -66,6 +79,18 @@ public class PlayerController : MonoBehaviour
             playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
             transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
 
+            if (Input.GetMouseButton(0) && CanFire && currentMag > 0 && weaponID >=0)
+            {
+                GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.rotation);
+                s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotVel);
+                Destroy(s, bulletLifespan);
+                CanFire = false;
+                currentMag--;
+                StartCoroutine("cooldownFire");
+
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+                reloadMag();
 
             Vector3 temp = myRB.velocity;
 
@@ -110,8 +135,21 @@ public class PlayerController : MonoBehaviour
 
             Destroy(collision.gameObject);
     
+      
+        }
+
+        if ((collision.gameObject.tag == "ammoPickup") && currentAmmo < maxAmmo)
+        {
+            if (currentAmmo + reloadAmt > maxAmmo)
+                currentAmmo = maxAmmo;
+
+            else currentAmmo += reloadAmt;
+
+            Destroy(collision.gameObject);
+
         }
     }
+
 
 
     private void OnTriggerEnter(Collider other)
@@ -123,8 +161,83 @@ public class PlayerController : MonoBehaviour
             other.transform.rotation = weaponSlot.rotation;
 
             other.transform.SetParent(weaponSlot);
+
+            switch(other.gameObject.name)
+            {
+                case "weapon1":
+                    weaponID = 0;
+                    shotVel = 10000;
+                    firemode = 0;
+                    currentMag = 20;
+                    magSize = 400;
+                    currentAmmo = 200;
+                    reloadAmt = 20;
+                    bulletLifespan = .5f;
+                    break;
+             defualt:
+                        break;
+
+
+
+
+            }
         }
 
     }
+    public void reloadMag()
+    {
+        if (currentMag >= magSize)
+            return;
+        else
+        {
+            float reloadCount = magSize - currentMag;
+            if(currentAmmo < reloadCount)
+            {
+                currentMag += currentAmmo;
+                currentAmmo = 0;
+                return;
+
+
+            }
+
+            else
+            {
+                currentMag += reloadCount;
+                currentAmmo -= reloadCount;
+                return;
+
+
+
+
+            }
+
+
+
+        }
+
+        
+
+
+
+
+
+
+
+    }
+
+    IEnumerator cooldownFire()
+    {
+        yield return new WaitForSeconds(fireRate);
+        CanFire = true;
+
+    }
+
+
+
+
+
+
+
 }
+
 
