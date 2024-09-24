@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public int health = 5;
     public int maxHealth = 10;
     public int healthPickupAmt = 5;
+    public bool takenDamage = false;
 
     [Header("weapon Stats")]
     public Transform weaponSlot;
@@ -63,7 +65,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (health <= 0)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
 
         {
@@ -174,8 +177,9 @@ public class PlayerController : MonoBehaviour
                     reloadAmt = 20;
                     bulletLifespan = .5f;
                     break;
-             defualt:
-                        break;
+
+                default:
+                    break;
 
 
 
@@ -234,6 +238,12 @@ public class PlayerController : MonoBehaviour
 
 
 
+    IEnumerator cooldownDamage()
+    {
+        yield return new WaitForSeconds(fireRate);
+        CanFire = true;
+
+    }
 
 
 
