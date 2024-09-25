@@ -29,9 +29,9 @@ public class BasicEnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        target = GameObject.Find("Player").transform;
 
-        agent.destination = target.position;
+        agent.destination = player.transform.position;
+      
 
         if (health <= 0)
             Destroy(gameObject);

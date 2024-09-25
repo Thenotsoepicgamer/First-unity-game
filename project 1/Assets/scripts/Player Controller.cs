@@ -7,10 +7,12 @@ public class PlayerController : MonoBehaviour
 {
     Vector2 camRotation;
 
-  
-
     Rigidbody myRB;
     Camera playerCam;
+
+    Transform cameraHolder;
+
+
     [Header("Player stats")]
     public int health = 5;
     public int maxHealth = 10;
@@ -52,11 +54,14 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         myRB = GetComponent<Rigidbody>();
-        playerCam = transform.GetChild(0).GetComponent<Camera>();
+        playerCam = Camera.main;
+
 
         camRotation = Vector2.zero;
   
         Cursor.visible = false;
+
+        cameraHolder = transform.GetChild(0);
 
     }
 
@@ -79,7 +84,9 @@ public class PlayerController : MonoBehaviour
 
             camRotation.y = Mathf.Clamp(camRotation.y, -90, 90);
 
-            playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
+            playerCam.transform.position = cameraHolder.position;
+
+            playerCam.transform.rotation = Quaternion.Euler(-camRotation.y, camRotation.x, 0);
             transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
 
             if (Input.GetMouseButton(0) && CanFire && currentMag > 0 && weaponID >=0)
