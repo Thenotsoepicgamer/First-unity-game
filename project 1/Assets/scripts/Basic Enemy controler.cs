@@ -29,7 +29,7 @@ public class BasicEnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       
         agent.destination = player.transform.position;
       
 
@@ -55,5 +55,5 @@ public class BasicEnemyController : MonoBehaviour
     }
 }
 
-
+// AAAAAAAAAAAAAA
 

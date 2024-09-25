@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         myRB = GetComponent<Rigidbody>();
         playerCam = Camera.main;
-
+        
 
         camRotation = Vector2.zero;
   
