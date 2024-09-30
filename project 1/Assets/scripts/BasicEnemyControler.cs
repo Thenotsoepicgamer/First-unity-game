@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,6 +11,7 @@ public class BasicEnemyController : MonoBehaviour
     public PlayerController player;
     public NavMeshAgent agent;
     public Transform target;
+
 
     [Header("Enemy Stats")]
     public int health = 3;
@@ -30,8 +32,6 @@ public class BasicEnemyController : MonoBehaviour
     void Update()
     {
        
-        agent.destination = player.transform.position;
-      
 
         if (health <= 0)
             Destroy(gameObject);
@@ -52,6 +52,30 @@ public class BasicEnemyController : MonoBehaviour
             player.gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * pushBackForce);
             player.StartCoroutine("cooldownDamage");
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+
+            agent.destination = player.transform.position;
+
+        }
+
+
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+
+            agent.destination = player.transform.position;
+
+        }
+
+
     }
 }
 

@@ -8,6 +8,7 @@ TagManager:
   - Gun
   - weaponSlot
   - bullet
+  - basicEnemy
   layers:
   - Default
   - TransparentFX
