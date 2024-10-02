@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    GameManager gm;
+
     Vector2 camRotation;
 
     Rigidbody myRB;
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
     public float currentAmmo = 0;
     public float reloadAmt = 0;
     public float bulletLifespan = 0;
-  
+
 
     [Header("movement stats")]
     public bool sprinting = false;
@@ -53,12 +55,14 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         myRB = GetComponent<Rigidbody>();
         playerCam = Camera.main;
-        
+
 
         camRotation = Vector2.zero;
-  
+
         Cursor.visible = false;
 
         cameraHolder = transform.GetChild(0);
@@ -70,14 +74,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health <= 0)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
-
+        if (!gm.isPaused)
         {
+            if (health <= 0)
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-         
-           
 
             camRotation.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
             camRotation.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
@@ -89,7 +90,7 @@ public class PlayerController : MonoBehaviour
             playerCam.transform.rotation = Quaternion.Euler(-camRotation.y, camRotation.x, 0);
             transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
 
-            if (Input.GetMouseButton(0) && CanFire && currentMag > 0 && weaponID >=0)
+            if (Input.GetMouseButton(0) && CanFire && currentMag > 0 && weaponID >= 0)
             {
                 GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.rotation);
                 s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotVel);
@@ -99,6 +100,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine("cooldownFire");
 
             }
+
             if (Input.GetKeyDown(KeyCode.R))
                 reloadMag();
 
@@ -122,18 +124,15 @@ public class PlayerController : MonoBehaviour
             if (sprinting && !sprintToggle && Input.GetKeyUp(KeyCode.LeftShift))
                 sprinting = false;
 
-            if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position,-transform.up, grounddetection))
+            if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, -transform.up, grounddetection))
                 temp.y = jumpHeight;
 
             myRB.velocity = (transform.forward * temp.z) + (transform.right * temp.x) + (transform.up * temp.y);
+        }
+    }
 
 
-    {
-        
-    }
-}
-            
-    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if ((collision.gameObject.tag == "health pick up") && health < maxHealth)
@@ -144,8 +143,8 @@ public class PlayerController : MonoBehaviour
             else health += healthPickupAmt;
 
             Destroy(collision.gameObject);
-    
-      
+
+
         }
 
         if ((collision.gameObject.tag == "ammoPickup") && currentAmmo < maxAmmo)
@@ -164,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Gun")
+        if (other.gameObject.tag == "Gun")
         {
 
             other.transform.position = weaponSlot.position;
@@ -172,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
             other.transform.SetParent(weaponSlot);
 
-            switch(other.gameObject.name)
+            switch (other.gameObject.name)
             {
                 case "weapon1":
                     weaponID = 0;
@@ -202,7 +201,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             float reloadCount = magSize - currentMag;
-            if(currentAmmo < reloadCount)
+            if (currentAmmo < reloadCount)
             {
                 currentMag += currentAmmo;
                 currentAmmo = 0;
@@ -226,14 +225,6 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        
-
-
-
-
-
-
-
     }
 
     IEnumerator cooldownFire()
@@ -252,9 +243,4 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
-
-
 }
-
-
