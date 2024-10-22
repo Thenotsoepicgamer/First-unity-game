@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public GameObject shot;
     public bool CanFire = true;
     public float fireRate = 0;
-    public int weaponID = -1;
+    public int weaponID = 0;
     public float shotVel = 0;
     public int firemode = 0;
     public float currentMag = 0;
@@ -175,12 +175,13 @@ public class PlayerController : MonoBehaviour
             {
                 case "weapon1":
                     weaponID = 0;
-                    shotVel = 10000;
-                    firemode = 0;
-                    currentMag = 20;
-                    magSize = 400;
+                    shotVel = 99000;
+                    fireRate = 0.1f;
+                    firemode = 1000;
+                    currentMag = 12;
+                    magSize = 12;
                     currentAmmo = 200;
-                    reloadAmt = 20;
+                    reloadAmt = 12;
                     bulletLifespan = .5f;
                     break;
 
