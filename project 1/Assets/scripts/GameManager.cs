@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playerData = GameObject.Find("Player").GetComponent<PlayerController>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
